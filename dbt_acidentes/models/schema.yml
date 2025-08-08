@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: stg_acidentes_trabalho
+    description: "Staging do SINAN (Acidentes de Trabalho). Tipagem e padronização básica."
+    columns:
+      - name: dt_acid
+        description: "Data do acidente"
+        tests: [not_null]
+      - name: cs_sexo
+        description: "Sexo (M/F/I)"
+        tests:
+          - accepted_values:
+              values: ['M','F','I']
+      - name: cs_raca
+        description: "Raça/Cor"
+        tests:
+          - accepted_values:
+              values: ['1','2','3','4','5','9']
+      - name: tipo_acid
+        description: "Tipo de acidente"
+        tests:
+          - accepted_values:
+              values: ['1','2','9']
+      - name: part_corp1
+        description: "Parte do corpo atingida 1"
+        tests:
+          - accepted_values:
+              values: ['01','02','03','04','05','06','07','08','09','10','11','99']
+      - name: evolucao
+        description: "Evolução do caso"
+        tests:
+          - accepted_values:
+              values: ['1','2','3','4','5','6','7','9']
+
+  - name: dim_sexo
+    description: "Dimensão de sexo (código → descrição)"
+    columns:
+      - name: codigo
+        tests: [unique, not_null]
+
+  - name: dim_raca
+    description: "Dimensão de raça/cor"
+    columns:
+      - name: codigo
+        tests: [unique, not_null]
+
+  - name: dim_tipo_acidente
+    description: "Dimensão do tipo de acidente"
+    columns:
+      - name: codigo
+        tests: [unique, not_null]
+
+  - name: dim_partes_corpo
+    description: "Dimensão das partes do corpo atingidas"
+    columns:
+      - name: codigo
+        tests: [unique, not_null]
+
+  - name: dim_evolucao
+    description: "Dimensão de evolução do caso"
+    columns:
+      - name: codigo
+        tests: [unique, not_null]
+
+  - name: fato_acidente_trabalho
+    description: "Tabela fato de acidentes de trabalho, já enriquecida com descrições de domínio."
+    columns:
+      - name: dt_acid
+        tests: [not_null]
