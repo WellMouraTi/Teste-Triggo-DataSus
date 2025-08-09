@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: dim_tempo
+    description: "Dimensão de tempo para análises de acidentes"
+    columns:
+      - name: data_evento
+        description: "Data do evento"
+        tests:
+          - not_null
+
+  - name: dim_evolucao
+    description: "Dimensão com códigos e descrições da evolução do caso"
+    columns:
+      - name: codigo
+        description: "Código da evolução"
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_partes_corpo
+    description: "Dimensão com códigos e descrições das partes do corpo afetadas"
+    columns:
+      - name: codigo
+        description: "Código da parte do corpo"
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_raca
+    description: "Dimensão com códigos e descrições de raça/cor"
+    columns:
+      - name: codigo
+        description: "Código da raça/cor"
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_sexo
+    description: "Dimensão com códigos e descrições do sexo"
+    columns:
+      - name: codigo
+        description: "Código do sexo"
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_tipo_acidente
+    description: "Dimensão com tipos de acidente"
+    columns:
+      - name: codigo
+        description: "Código do tipo de acidente"
+        tests:
+          - not_null
+          - unique
