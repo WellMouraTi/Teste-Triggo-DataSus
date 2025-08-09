@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: fato_acidente_trabalho
+    description: "Tabela fato contendo as ocorrências de acidentes de trabalho"
+    columns:
+      - name: id_acidente
+        description: "Identificador único do acidente"
+        tests:
+          - not_null
