@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw
+    database: ACIDENTES_DB
+    schema: RAW
+    tables:
+      - name: acidentes_trabalho_raw
+        description: Base bruta ACGRBR24 (DataSUS)
+        columns:
+          - name: dt_notific
+            description: Data de notificação
+          - name: sexo
+            tests:
+              - accepted_values:
+                  values: ['M','F','I','9']  # ajuste ao seu dicionário
