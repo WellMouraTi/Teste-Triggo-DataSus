@@ -6,6 +6,25 @@ with base as (
 )
 
 select
+
+to_varchar(
+  md5(
+    concat_ws('||',
+      to_varchar(dt_acid),
+      coalesce(sg_uf,''), coalesce(sg_uf_not,''),
+      to_varchar(mun_acid), to_varchar(id_mn_resi),
+      coalesce(cid_acid,''), coalesce(cid_lesao,''),
+      to_varchar(id_ocupa_n),
+      coalesce(cnae_prin,''), coalesce(cnae,''),
+      to_varchar(cs_sexo), to_varchar(cs_raca),
+      to_varchar(tipo_acid),
+      to_varchar(part_corp1), to_varchar(part_corp2), to_varchar(part_corp3),
+      to_varchar(evolucao), to_varchar(cat),
+      to_varchar(nu_trab)
+    )
+  )
+) as id_acidente,
+
   -- chaves e medidas
   nu_trab                                            as qtd_trabalhadores_evento,
   dt_acid,
@@ -49,3 +68,4 @@ left join {{ ref('dim_partes_corpo') }}  dpc1    on dpc1.codigo     = b.part_cor
 left join {{ ref('dim_partes_corpo') }}  dpc2    on dpc2.codigo     = b.part_corp2
 left join {{ ref('dim_partes_corpo') }}  dpc3    on dpc3.codigo     = b.part_corp3
 left join {{ ref('dim_evolucao') }}      dev     on dev.codigo      = b.evolucao
+
