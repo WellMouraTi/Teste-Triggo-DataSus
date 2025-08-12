@@ -6,5 +6,55 @@ models:
     columns:
       - name: id_acidente
         description: "Identificador único do acidente"
+        tests: [not_null, unique]
+
+      # FKs -> dimensões
+      - name: cs_sexo
         tests:
-          - not_null
+          - relationships:
+              to: ref('dim_sexo')
+              field: codigo
+
+      - name: cs_raca
+        tests:
+          - relationships:
+              to: ref('dim_raca')
+              field: codigo
+
+      - name: tipo_acid
+        tests:
+          - relationships:
+              to: ref('dim_tipo_acidente')
+              field: codigo
+
+      - name: part_corp1
+        tests:
+          - relationships:
+              to: ref('dim_partes_corpo')
+              field: codigo
+
+      - name: part_corp2
+        tests:
+          - relationships:
+              to: ref('dim_partes_corpo')
+              field: codigo
+
+      - name: part_corp3
+        tests:
+          - relationships:
+              to: ref('dim_partes_corpo')
+              field: codigo
+
+      - name: evolucao
+        tests:
+          - relationships:
+              to: ref('dim_evolucao')
+              field: codigo
+
+      # opcional: tempo (se quiser checar também)
+      # troque 'data_evento' se sua dim_tempo tiver outro nome
+      - name: dt_acid
+        tests:
+          - relationships:
+              to: ref('dim_tempo')
+              field: data_evento

@@ -1,0 +1,14 @@
+version: 2
+exposures:
+  - name: painel_acidente_trabalho
+    type: dashboard
+    maturity: medium
+    owner: { name: "Seu Nome", email: "seu@email" }
+    depends_on:
+      - ref('fato_acidente_trabalho')
+      - ref('dim_tempo')
+      - ref('dim_sexo')
+      - ref('dim_raca')
+      - ref('dim_tipo_acidente')
+      - ref('dim_partes_corpo')
+      - ref('dim_evolucao')
