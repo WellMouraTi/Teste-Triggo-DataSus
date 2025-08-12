@@ -53,3 +53,11 @@ models:
         tests:
           - not_null
           - unique
+      
+  - name: dim_localidade
+    description: "Dimensão de UF/município"
+    columns:
+    - name: uf
+      description: "Sigla da UF"
+      tests:
+        - not_null
