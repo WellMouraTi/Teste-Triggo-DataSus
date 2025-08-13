@@ -90,7 +90,17 @@ A ingestão foi realizada utilizando **Worksheets** no Snowflake, simulando um *
    ```sql
    CREATE DATABASE IF NOT EXISTS ACIDENTES_DB;
    CREATE SCHEMA IF NOT EXISTS ACIDENTES_DB.RAW;
+   
+2. **Criação do formato de arquivo e do stage interno**
+(Código em ingest/sql/01_create_stage_and_format.sql)
 
+3. **Upload do arquivo CSV para o stage interno* (PUT command via SnowSQL ou upload via interface)
+
+4. **Carga dos dados para a tabela RAW:**
+
+ingest/sql/02_copy_into_acidentes_trabalho_raw.sql
+
+ingest/sql/03_copy_into_acidentes_trabalho_raw.sql
 
 
 
