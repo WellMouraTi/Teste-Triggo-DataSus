@@ -55,6 +55,8 @@ flowchart LR
   D5 --> F1
   D6 --> F1
   D7 --> F1
+```
+  ## Como Rodar o Projeto 
 
 
 
