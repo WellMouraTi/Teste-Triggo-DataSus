@@ -6,7 +6,7 @@ Power BI será adicionado depois (opcional).
 
 ## 🧱 Arquitetura (visão geral)
 
-```mermaid
+``` mermaid
 flowchart LR
   subgraph RAW[Camada Raw (Snowflake)]
     A[ACGRBR24]
