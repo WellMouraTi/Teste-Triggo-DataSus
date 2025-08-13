@@ -9,9 +9,9 @@ Pipeline em **Snowflake** com transformações **dbt**, modelagem dimensional (s
 ## 🧱 Arquitetura (visão geral)
 
 ```mermaid
-flowchart TD
+flowchart LR
   subgraph RAW[Camada Raw (Snowflake)]
-    A[ACGRBR24]
+    A [ACGRBR24]
   end
 
   subgraph STG[Staging (dbt / views)]
