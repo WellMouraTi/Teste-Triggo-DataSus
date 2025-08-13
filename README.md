@@ -10,17 +10,15 @@ Pipeline em **Snowflake** com transformações **dbt**, modelagem dimensional (s
 
 ```mermaid
 flowchart LR
-  end
-
-  A --> S1
-  S1 --> D1
-  S1 --> D2
-  S1 --> D3
-  S1 --> D4
-  S1 --> D5
-  S1 --> D6
-  S1 --> D7
-  S1 --> F1
+  A[Raw Data] --> S1[Staging]
+  S1 --> D1[Dimensão Local]
+  S1 --> D2[Dimensão CBO]
+  S1 --> D3[Dimensão CID]
+  S1 --> D4[Dimensão Acidente]
+  S1 --> D5[Dimensão Pessoa]
+  S1 --> D6[Dimensão Empresa]
+  S1 --> D7[Dimensão Tempo]
+  S1 --> F1[Fato Acidente]
   D1 --> F1
   D2 --> F1
   D3 --> F1
