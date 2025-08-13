@@ -60,7 +60,7 @@ flowchart LR
 Obs: projeto foi feito no dbt cloud.
   #### DBT Cloud
 Configure a conexão Snowflake (Account, User, Role, Warehouse, Database, Schema).
-Execute no bash(barra):
+Execute no Run Command Bar (barra):
 dbt deps
 dbt build (compila/roda modelos e testes)
 dbt docs generate (gera o site de documentação)
