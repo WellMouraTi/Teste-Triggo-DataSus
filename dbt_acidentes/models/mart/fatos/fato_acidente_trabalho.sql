@@ -1,4 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    cluster_by=['dt_acid','sg_uf']
+) }}
+
 
 with base as (
   select *

@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', transient=true) }}
 
 select * from values
   ('1','Cura'),

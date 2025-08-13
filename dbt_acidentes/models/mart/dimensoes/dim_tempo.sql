@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', transient=true) }}
 
 with datas as (
   select distinct dt_acid as data_evento
