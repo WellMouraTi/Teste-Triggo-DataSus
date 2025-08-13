@@ -9,7 +9,7 @@ Pipeline em **Snowflake** com transformações **dbt**, modelagem dimensional (s
 ## 🧱 Arquitetura (visão geral)
 
 ```mermaid
-
+flowchart LR
   end
 
   A --> S1
