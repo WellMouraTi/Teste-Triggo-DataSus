@@ -62,7 +62,7 @@ Nesta etapa, foi realizada a coleta, preparação e ingestão dos dados do **SIN
 
 ---
 
-## **1️⃣ Coleta dos dados (DataSUS)**
+#### ** Coleta dos dados (DataSUS)**
 1. Acessar o portal do **SINAN – DataSUS** e realizar o download do conjunto de dados **ACGRBR – 2024**.  
 2. Baixar também os **arquivos auxiliares para tabulação** fornecidos pelo DataSUS, que contêm:
    - Conversor de arquivos `.DBC` para `.DBF`.
@@ -73,7 +73,7 @@ Nesta etapa, foi realizada a coleta, preparação e ingestão dos dados do **SIN
 
 ---
 
-## **2️⃣ Conversão para CSV**
+#### ** Conversão para CSV**
 Para permitir a leitura dos dados no Snowflake, foi necessário converter o formato original (`.DBF`) para `.CSV`:
 
 1. Utilizar o conversor disponibilizado pelo DataSUS para transformar `.DBC` em `.DBF`.
@@ -83,7 +83,7 @@ Para permitir a leitura dos dados no Snowflake, foi necessário converter o form
 
 ---
 
-## **3️⃣ Ingestão no Snowflake**
+#### ** Ingestão no Snowflake**
 A ingestão foi realizada utilizando **Worksheets** no Snowflake, simulando um *data lake* com o uso de um **stage interno**.
 
 1. **Criação do banco e schema e criação do formato de arquivo e do stage interno**
