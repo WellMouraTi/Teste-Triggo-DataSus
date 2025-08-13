@@ -1,5 +1,5 @@
-```mermaid
-flowchart LR
+ ```mermaid
+`flowchart LR`
   subgraph RAW[Camada Raw (Snowflake)]
     A[ACGRBR24]
   end
