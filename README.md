@@ -8,13 +8,15 @@ Power BI será adicionado depois (opcional).
 
 ```mermaid
 flowchart LR
-  subgraph Raw[Camada Raw (Snowflake)]
-    A[ACGRBR24] 
+  subgraph RAW[Camada Raw (Snowflake)]
+    A[ACGRBR24]
   end
-  subgraph STG[Staging (dbt • views)]
+
+  subgraph STG[Staging (dbt / views)]
     S1[stg_acidentes_trabalho]
   end
-  subgraph DIM[Dimensões (dbt • tables)]
+
+  subgraph DIM[Dimensões (dbt / tables)]
     D1[dim_tempo]
     D2[dim_sexo]
     D3[dim_raca]
@@ -23,11 +25,25 @@ flowchart LR
     D6[dim_evolucao]
     D7[dim_localidade]
   end
-  subgraph FATO[Mart (dbt • tables)]
+
+  subgraph MART[Mart (dbt / tables)]
     F1[fato_acidente_trabalho]
   end
 
   A --> S1
-  S1 --> D1 & D2 & D3 & D4 & D5 & D6 & D7
+  S1 --> D1
+  S1 --> D2
+  S1 --> D3
+  S1 --> D4
+  S1 --> D5
+  S1 --> D6
+  S1 --> D7
   S1 --> F1
-  D1 & D2 & D3 & D4 & D5 & D6 & D7 --> F1
+  D1 --> F1
+  D2 --> F1
+  D3 --> F1
+  D4 --> F1
+  D5 --> F1
+  D6 --> F1
+  D7 --> F1
+
