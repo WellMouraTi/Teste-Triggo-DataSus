@@ -6,7 +6,7 @@ Pipeline construído em **Snowflake**, com transformações e modelagem dimensio
 
 ---
 
-## 🧱 Arquitetura do Pipeline
+##  Arquitetura do Pipeline
 
 Este projeto segue uma arquitetura moderna de dados, dividida em quatro camadas principais:
 
@@ -55,3 +55,9 @@ flowchart LR
   D5 --> F1
   D6 --> F1
   D7 --> F1
+
+
+
+
+
+
