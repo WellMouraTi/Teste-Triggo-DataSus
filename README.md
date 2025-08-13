@@ -86,17 +86,12 @@ Para permitir a leitura dos dados no Snowflake, foi necessário converter o form
 ## **3️⃣ Ingestão no Snowflake**
 A ingestão foi realizada utilizando **Worksheets** no Snowflake, simulando um *data lake* com o uso de um **stage interno**.
 
-1. **Criação do banco e schema:**
-   ```sql
-   CREATE DATABASE IF NOT EXISTS ACIDENTES_DB;
-   CREATE SCHEMA IF NOT EXISTS ACIDENTES_DB.RAW;
-   
-2. **Criação do formato de arquivo e do stage interno**
+1. **Criação do banco e schema e criação do formato de arquivo e do stage interno**
 (Código em ingest/sql/01_create_stage_and_format.sql)
 
-3. **Upload do arquivo CSV para o stage interno** (PUT command via SnowSQL ou upload via interface)
+2. **Upload do arquivo CSV para o stage interno** (PUT command via SnowSQL ou upload via interface)
 
-4. **Carga dos dados para a tabela RAW:**
+3. **Carga dos dados para a tabela RAW:**
 
 ingest/sql/02_copy_into_acidentes_trabalho_raw.sql
 
