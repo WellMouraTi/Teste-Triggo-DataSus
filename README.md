@@ -1,6 +1,6 @@
 # ACGRBR24 – Acidente de Trabalho | Snowflake + dbt (Bootcamp 2025)
 
-Repositório do desafio final (Tema: **Acidente de Trabalho – ACGRBR24**).  
+Repositório do desafio final Tema: **Acidente de Trabalho – ACGRBR24**.  
 Pipeline construído em **Snowflake**, com transformações e modelagem dimensional via **dbt**.  
 > O painel em Power BI é opcional e pode ser adicionado posteriormente.
 
@@ -10,10 +10,10 @@ Pipeline construído em **Snowflake**, com transformações e modelagem dimensio
 
 Este projeto segue uma arquitetura moderna de dados, dividida em quatro camadas principais:
 
-- **Raw (Snowflake)**: Dados brutos carregados diretamente da fonte.
-- **Staging (dbt/views)**: Limpeza e padronização dos dados.
-- **Dimensões (dbt/tables)**: Tabelas dimensionais que descrevem os atributos dos acidentes.
-- **Mart (dbt/tables)**: Tabela fato que consolida os dados para análise.
+- **Raw Snowflake**: Dados brutos carregados diretamente da fonte.
+- **Staging dbt/views**: Limpeza e padronização dos dados.
+- **Dimensõesdbt/tables**: Tabelas dimensionais que descrevem os atributos dos acidentes.
+- **Mart dbt/tables**: Tabela fato que consolida os dados para análise.
 
 ```mermaid
 flowchart LR
