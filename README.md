@@ -58,11 +58,11 @@ flowchart LR
 ```
   ## Como Rodar o Projeto 
 Obs: projeto foi feito no dbt cloud, mas segue abaixo caso queira rodar o dbt local.
-  ###DBT Cloud
-Configure a conexão Snowflake (Account, User, Role, Warehouse, Database, Schema).
-
+  ### DBT Cloud
 Execute:
-
+dbt deps
+dbt build (compila/roda modelos e testes)
+dbt docs generate (gera o site de documentação)
 
 
 
