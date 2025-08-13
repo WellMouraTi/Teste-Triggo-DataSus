@@ -56,7 +56,7 @@ flowchart LR
   D6 --> F1
   D7 --> F1
 ```
-"""# Etapa 2 – Coleta e Ingestão de Dados (DataSUS)
+ ## Coleta e Ingestão de Dados (DataSUS)
 
 Nesta etapa, foi realizada a coleta, preparação e ingestão dos dados do **SINAN – ACGRBR (Acidente de Trabalho Grave) – ano de 2024** no **Snowflake**, seguindo as boas práticas de um pipeline de dados e simulando um *data lake* na camada de **stage interno**.
 
