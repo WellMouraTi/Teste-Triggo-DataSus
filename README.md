@@ -94,7 +94,7 @@ A ingestão foi realizada utilizando **Worksheets** no Snowflake, simulando um *
 2. **Criação do formato de arquivo e do stage interno**
 (Código em ingest/sql/01_create_stage_and_format.sql)
 
-3. **Upload do arquivo CSV para o stage interno* (PUT command via SnowSQL ou upload via interface)
+3. **Upload do arquivo CSV para o stage interno** (PUT command via SnowSQL ou upload via interface)
 
 4. **Carga dos dados para a tabela RAW:**
 
