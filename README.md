@@ -58,7 +58,7 @@ flowchart LR
 ```
   ## Como Rodar o Projeto 
 Obs: projeto foi feito no dbt cloud, mas segue abaixo caso queira rodar o dbt local.
-  ### DBT Cloud
+  #### DBT Cloud
 Execute:
 dbt deps
 dbt build (compila/roda modelos e testes)
