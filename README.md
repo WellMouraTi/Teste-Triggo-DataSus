@@ -17,7 +17,7 @@ Este projeto segue uma arquitetura moderna de dados, dividida em quatro camadas 
 
 ```mermaid
 flowchart LR
-  subgraph RAW[Camada Raw (Snowflake)]
+  subgraph RAW[Camada Raw Snowflake]
     A[ACGRBR24]
   end
 
