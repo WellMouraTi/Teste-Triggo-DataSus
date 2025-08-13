@@ -9,27 +9,7 @@ Pipeline em **Snowflake** com transformações **dbt**, modelagem dimensional (s
 ## 🧱 Arquitetura (visão geral)
 
 ```mermaid
-flowchart LR
-  subgraph RAW[Camada Raw (Snowflake)]
-    A [ACGRBR24]
-  end
 
-  subgraph STG[Staging (dbt / views)]
-    S1[stg_acidentes_trabalho]
-  end
-
-  subgraph DIM[Dimensões (dbt / tables)]
-    D1[dim_tempo]
-    D2[dim_sexo]
-    D3[dim_raca]
-    D4[dim_tipo_acidente]
-    D5[dim_partes_corpo]
-    D6[dim_evolucao]
-    D7[dim_localidade]
-  end
-
-  subgraph MART[Mart (dbt / tables)]
-    F1[fato_acidente_trabalho]
   end
 
   A --> S1
