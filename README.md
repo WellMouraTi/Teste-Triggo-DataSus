@@ -57,7 +57,11 @@ flowchart LR
   D7 --> F1
 ```
   ## Como Rodar o Projeto 
+Obs: projeto foi feito no dbt cloud, mas segue abaixo caso queira rodar o dbt local.
+  ###DBT Cloud
+Configure a conexão Snowflake (Account, User, Role, Warehouse, Database, Schema).
 
+Execute:
 
 
 
