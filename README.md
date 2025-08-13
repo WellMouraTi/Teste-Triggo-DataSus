@@ -1,5 +1,15 @@
+# ACGRBR24 – Acidente de Trabalho | Snowflake + dbt (Bootcamp 2025)
+
+Repositório do desafio final (Tema: **Acidente de Trabalho – ACGRBR24**).  
+Pipeline em **Snowflake** com transformações **dbt**, modelagem dimensional (staging → dimensões → fato).  
+> O painel em Power BI é opcional e pode ser adicionado depois.
+
+---
+
+## 🧱 Arquitetura (visão geral)
+
 ```mermaid
-  flowchart LR
+flowchart LR
   subgraph RAW[Camada Raw (Snowflake)]
     A[ACGRBR24]
   end
