@@ -1,17 +1,12 @@
-name: 'dbt_acidentes'
+name: dbt_acidentes
 version: '1.0'
 config-version: 2
 
-profile: 'default'
+profile: user
 
 model-paths: ["models"]
-target-path: "target"
-clean-targets: ["target", "dbt_modules"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
 
-models:
-  dbt_acidentes:
-    +materialized: view
-    staging:
-      +materialized: view
-    mart:
-      +materialized: table
+
