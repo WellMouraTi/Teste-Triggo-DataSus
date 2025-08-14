@@ -1,177 +1,141 @@
-# ACGRBR24 – Acidente de Trabalho | Snowflake + dbt (Bootcamp 2025)
+#  ACGRBR24 – Acidente de Trabalho | Snowflake + dbt (Bootcamp 2025)
 
-Repositório do desafio final (Tema: **Acidente de Trabalho – ACGRBR24**).  
-Pipeline construído em **Snowflake**, com transformações e modelagem dimensional via **dbt**.  
-
----
-
- ## Coleta e Ingestão de Dados (DataSUS)
-
-Nesta etapa, foi realizada a coleta, preparação e ingestão dos dados do **SINAN – ACGRBR (Acidente de Trabalho Grave) – ano de 2024** no **Snowflake**, seguindo as boas práticas de um pipeline de dados e simulando um *data lake* na camada de **stage interno**.
+Repositório do desafio final do Bootcamp 2025.  
+Tema: **Acidente de Trabalho – ACGRBR24**  
+Pipeline construído em **Snowflake**, com transformações e modelagem dimensional via **dbt**.
 
 ---
 
-#### ** Coleta dos dados (DataSUS)**
-1. Acessar o portal do **SINAN – DataSUS** e realizar o download do conjunto de dados **ACGRBR – 2024**.  
-2. Baixar também os **arquivos auxiliares para tabulação** fornecidos pelo DataSUS, que contêm:
-   - Conversor de arquivos `.DBC` para `.DBF`.
-   - Dicionários de dados e layouts para interpretação dos campos.
-3. Os arquivos de documentação utilizados foram:
+##  Coleta e Ingestão de Dados (DataSUS)
+
+Nesta etapa, foi realizada a coleta, preparação e ingestão dos dados do **SINAN – ACGRBR (Acidente de Trabalho Grave)** referentes ao ano de **2024**, simulando um *data lake* na camada de **stage interno** do Snowflake.
+
+###  Coleta dos Dados
+
+1. Acesse o portal do **SINAN – DataSUS** e baixe o conjunto de dados **ACGRBR – 2024**.
+2. Baixe também os **arquivos auxiliares para tabulação**, que incluem:
+   - Conversor de arquivos `.DBC` para `.DBF`
+   - Dicionários de dados e layouts
+3. Documentação utilizada:
    - [Dicionário de Dados – Acidente de Trabalho Grave (DRT)](https://portalsinan.saude.gov.br/images/documentos/Agravos/DRT%20Acidente%20Trabalho%20Grave/DIC_DADOS_DRT_Acidente_Trabalho_grave_v5.pdf)
-   - **DIC_DADOS_NET – Notificação Individual** (arquivo local baixado do portal)
+   - **DIC_DADOS_NET – Notificação Individual** (arquivo local)
+
+###  Conversão para CSV
+
+Para ingestão no Snowflake, os dados foram convertidos de `.DBF` para `.CSV`:
+
+1. Use o conversor do DataSUS para transformar `.DBC` em `.DBF`.
+2. Execute o script Python [`convert_DBF_CVS.py`](ingest/python/convert_DBF_CVS.py) para converter `.DBF` → `.CSV`.
+   - Utiliza **pandas** e **simpledbf**
+3. O arquivo resultante `ACGRBR24.csv` foi salvo localmente.
+
+###  Ingestão no Snowflake
+
+1. Criação de banco, schema, formato de arquivo e stage interno  
+   → [`01_create_stage_and_format.sql`](ingest/sql/01_create_stage_and_format.sql)
+2. Upload do CSV para o stage interno (via SnowSQL ou interface)
+3. Carga dos dados para a tabela RAW  
+   → [`02_copy_into_acidentes_trabalho_raw.sql`](ingest/sql/02_copy_into_acidentes_trabalho_raw.sql)
 
 ---
 
-#### ** Conversão para CSV**
-Para permitir a leitura dos dados no Snowflake, foi necessário converter o formato original (`.DBF`) para `.CSV`:
+##  Arquitetura da Modelagem
 
-1. Utilizar o conversor disponibilizado pelo DataSUS para transformar `.DBC` em `.DBF`.
-2. Executar o script Python [`ingest/python/convert_DBF_CVS.py`](ingest/python/convert_DBF_CVS.py) para converter `.DBF` → `.CSV`.  
-   - Este script utiliza a biblioteca **pandas** em conjunto com **simpledbf** para realizar a leitura e exportação do arquivo.
-3. O arquivo resultante **ACGRBR24.csv** foi salvo localmente para ingestão.
+Foi adotado o modelo **Star Schema**, com:
+
+###  Tabela Fato: `fato_acidente_trabalho`
+
+Contém as ocorrências de acidentes, com medidas e chaves substitutas (`id_acidente` via `md5_hex`).  
+Campos principais:
+- `qtd_trabalhadores_evento`
+- `dt_acid`, `cid_acid`, `cid_lesao`
+- `sg_uf`, `mun_acid`
+- `tipo_acid`, `evolucao`, `cat`
+
+###  Tabelas Dimensão
+
+| Tabela             | Descrição                                 |
+|--------------------|--------------------------------------------|
+| `dim_tempo`        | Datas dos eventos                         |
+| `dim_localidade`   | UF e município do acidente                |
+| `dim_sexo`         | Código e descrição do sexo                |
+| `dim_raca`         | Raça/cor                                  |
+| `dim_tipo_acidente`| Classificação do acidente                 |
+| `dim_partes_corpo` | Partes do corpo atingidas                 |
+| `dim_evolucao`     | Situação final do caso                    |
 
 ---
 
-#### ** Ingestão no Snowflake**
-A ingestão foi realizada utilizando **Worksheets** no Snowflake, simulando um *data lake* com o uso de um **stage interno**.
+##  Pipeline no dbt
 
-1. **Criação do banco e schema e criação do formato de arquivo e do stage interno**
-(Código em ingest/sql/01_create_stage_and_format.sql)
+Dividido em três camadas:
 
-2. **Upload do arquivo CSV para o stage interno** (PUT command via SnowSQL ou upload via interface)
+- **Staging (`stg_*`)**  
+  Padronização de campos, seleção de atributos relevantes.
 
-3. **Carga dos dados para a tabela RAW:**
+- **Intermediate (`int_*`)**  
+  Normalização, enriquecimento, exclusão de registros inconsistentes.
 
-ingest/sql/02_copy_into_acidentes_trabalho_raw.sql
+- **Mart (`fato_*`, `dim_*`)**  
+  Junção com dimensões, geração de chaves substitutas, deduplicação, materialização (`table` para fato, `view` para dimensões).
 
-ingest/sql/03_copy_into_acidentes_trabalho_raw.sql
+---
 
-### Arquitetura da Modelagem
+##  Testes Implementados
 
-Foi adotada a modelagem Star Schema com:    
-Tabela Fato 
-fato_acidente_trabalho  
-Contém as ocorrências de acidentes de trabalho.
-Inclui chaves substitutas (id_acidente gerado via md5_hex) e medidas como:
-qtd_trabalhadores_evento    
-dt_acid (data do acidente)  
-cid_acid, cid_lesao (CID-10 da causa e lesão)   
-sg_uf, mun_acid (UF e município)    
-tipo_acid, evolucao, cat (tipo de acidente, evolução do caso, emissão da CAT)  
+Utilizando `dbt tests`, `dbt_utils` e `dbt_expectations`:
 
+- **Qualidade de dados**  
+  `not_null`, `unique`, `accepted_values`, `expect_column_values_to_be_between`
 
-#### Tabelas Dimensão   
+- **Validação de integridade**  
+  Conferência entre códigos da fato e dimensões
 
-dim_tempo — Datas dos eventos (permitindo análise temporal).    
-dim_localidade — UF e município onde ocorreu o acidente.        
-dim_sexo — Código e descrição do sexo.  
-dim_raca — Raça/cor.    
-dim_tipo_acidente — Classificação do acidente.  
-dim_partes_corpo — Partes do corpo atingidas.   
-dim_evolucao — Situação final do caso.  
+---
 
+##  Recursos Avançados do Snowflake
 
-### Pipeline no dbt 
+###  Time Travel
 
-A modelagem foi dividida em três camadas:   
-Staging (stg_*) 
-Padronização de campos (datas com try_to_date, códigos em uppercase, trim). 
-Seleção apenas dos campos relevantes.   
-Fonte: source('raw', 'acidentes_trabalho_raw'). 
-Intermediate (int_*)    
-Tratamento intermediário (normalização, enriquecimento).    
-Exclusão de registros inconsistentes.   
-Mart (fato_* e dim_*)   
-Junção com dimensões.   
-Geração de chaves substitutas (md5_hex de múltiplos campos).    
-Deduplicação (row_number() para manter apenas um registro por combinação única de atributos).   
-Aplicação de materialização table no fato e view nas dimensões. 
+Permite consultar objetos em estados anteriores.  
+Demo: remoção de 1.000 linhas e comparação de contagem antes/depois.  
+→ [`time_travel.sql`](platform/time_travel.sql)
 
+###  Zero-Copy Clone
 
-### Testes Implementados    
+Clone instantâneo sem duplicação de dados.  
+Atenção à durabilidade (`TRANSIENT` vs `PERMANENT`).  
+→ [`zero_copy.sql`](platform/zero_copy.sql)
 
-Utilizando dbt tests e pacotes externos (dbt_utils, dbt_expectations):
+###  Clustering
 
-Qualidade de dados: 
-not_null para campos obrigatórios.  
-unique para chaves substitutas.     
-accepted_values conforme dicionário DataSUS.    
-expect_column_values_to_be_between para validar intervalos de datas.    
-Validação de integridade:   
-Conferência de correspondência entre códigos do fato e dimensões.
+Definição de chaves de cluster para otimizar filtros e partições.
 
-##  Recursos avançados do Snowflake
+---
 
-Esta seção demonstra, com scripts e validações, três recursos-chave do Snowflake aplicados ao projeto:
+##  Transformação e Modelagem com dbt
 
-Time Travel: consultar uma tabela “como ela estava antes”.  
+Transformação dos dados brutos do DataSUS em modelo dimensional otimizado para análise.  
+Permite insights sobre frequência, local, causas e consequências dos acidentes.
 
-Zero-Copy Clone: clonar tabelas instantaneamente, sem copiar dados. 
+---
 
-Clustering: definir chaves de cluster para melhorar filtros/varredura por partições.    
+##  Orquestração e Automação
 
-Todos os comandos abaixo podem ser executados no worksheet do snowflake com o WAREHOUSE habilitado. 
+### Ferramenta: DBT Cloud
 
+- **Job agendado** executa:
+  - `dbt source freshness`
+  - `dbt build`
+  - `dbt docs generate`
 
-#### Time Travel
+### Agendamento
 
-O que é: possibilidade de consultar objetos como estavam em um ponto no tempo anterior (dentro da janela de retenção configurada).  
-Demo que rodamos:   
-Criamos uma cópia de trabalho de FATO_ACIDENTE_TRABALHO (TT_DEMO).  
-Registramos um timestamp “ANTES”.   
-Removemos 1.000 linhas para gerar histórico.    
-Comparamos a contagem AGORA vs ANTES (TT).  
-codigo em ['platform/time_travel.sql'](platform/time_travel.sql).   
+- Frequência: Diária
+- Horário: 03:00 AM (BRT)
 
-#### Zero Copy Clone
+### Resultado
 
-Durabilidade precisa combinar: se a origem é TRANSIENT, o clone também deve ser TRANSIENT.  
-Não é permitido “promover” transient → permanent via clone. 
-codigo em ['platform/zero_copy.sql'](platform/zero_copy.sql).   
-
-##  Transformação e Modelagem de Dados com dbt  
-
-Transformar os dados brutos de acidentes de trabalho (DataSUS — DRT Acidente de Trabalho Grave) em um modelo dimensional otimizado para análise, utilizando o dbt.
-O modelo permite análises sobre frequência, local, causas e consequências dos acidentes.
-
-
-
-##  Orquestração e Automação da Pipeline de Dados
-
-Visão Geral
-
-A orquestração do projeto foi implementada no DBT Cloud, utilizando um job agendado para executar automaticamente a pipeline de dados.
-O objetivo é garantir que as transformações, testes e geração de documentação sejam executados de forma recorrente e confiável.
-
-Ferramenta Utilizada
-
-DBT Cloud (Job Scheduler)
-
-Integração direta com o Snowflake para execução dos modelos dbt.
-
-Fluxo Implementado
-1. Comandos executados no Job
-
-dbt source freshness
-dbt build
-dbt docs generate
-2. Função de cada comando
-dbt source freshness → Verifica a atualização das tabelas fonte no Snowflake.
-
-dbt build → Executa todos os modelos (dbt run) e testes (dbt test) definidos no projeto.
-
-dbt docs generate → Gera a documentação dos modelos e testes do projeto.
-
-Agendamento
-Frequência: Diária
-
-Horário: 03:00 AM (BRT)
-
-Configuração feita diretamente no painel de agendamento do DBT Cloud.
-
-Resultado
-Atualização automática das tabelas no schema mart.
-
-Testes de integridade executados a cada carga.
-
-Documentação disponível via link público do DBT Cloud.
+- Atualização automática das tabelas no schema `mart`
+- Testes executados a cada carga
+- Documentação disponível via link público do DBT Cloud
