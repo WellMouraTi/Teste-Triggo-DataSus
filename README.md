@@ -102,20 +102,24 @@ flowchart LR
 
 Esta seção demonstra, com scripts e validações, três recursos-chave do Snowflake aplicados ao projeto:
 
-Time Travel: consultar uma tabela “como ela estava antes”.
-Zero-Copy Clone: clonar tabelas instantaneamente, sem copiar dados.
-Clustering: definir chaves de cluster para melhorar filtros/varredura por partições.
-Todos os comandos abaixo podem ser executados no worksheet do snowflake com o WAREHOUSE habilitado.
+Time Travel: consultar uma tabela “como ela estava antes”.  
+
+Zero-Copy Clone: clonar tabelas instantaneamente, sem copiar dados. 
+
+Clustering: definir chaves de cluster para melhorar filtros/varredura por partições.    
+
+Todos os comandos abaixo podem ser executados no worksheet do snowflake com o WAREHOUSE habilitado. 
+
 
 #### Time Travel
 
-O que é: possibilidade de consultar objetos como estavam em um ponto no tempo anterior (dentro da janela de retenção configurada).
-Demo que rodamos:
-Criamos uma cópia de trabalho de FATO_ACIDENTE_TRABALHO (TT_DEMO).
-Registramos um timestamp “ANTES”.
-Removemos 1.000 linhas para gerar histórico.
-Comparamos a contagem AGORA vs ANTES (TT).
-codigo sql em ['platform/time_travel.sql'](platform/time_travel.sql).
+O que é: possibilidade de consultar objetos como estavam em um ponto no tempo anterior (dentro da janela de retenção configurada).  
+Demo que rodamos:   
+Criamos uma cópia de trabalho de FATO_ACIDENTE_TRABALHO (TT_DEMO).  
+Registramos um timestamp “ANTES”.   
+Removemos 1.000 linhas para gerar histórico.    
+Comparamos a contagem AGORA vs ANTES (TT).  
+codigo sql em ['platform/time_travel.sql'](platform/time_travel.sql).   
 
 
   ## Como Rodar o Projeto 
