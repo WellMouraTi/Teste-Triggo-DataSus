@@ -4,9 +4,10 @@ sources:
   - name: raw
     database: ACIDENTES_DB
     schema: RAW
-    freshness:
-      warn_after: {count: 365, period: day}
-      error_after: {count: 730, period: day}
     tables:
       - name: acidentes_trabalho_raw
         description: "Tabela bruta carregada via COPY INTO (stage interno)."
+        loaded_at_field: dt_notific   # ou dt_acid, se preferir
+        freshness:
+          warn_after: {count: 365, period: day}
+          error_after: {count: 730, period: day}
