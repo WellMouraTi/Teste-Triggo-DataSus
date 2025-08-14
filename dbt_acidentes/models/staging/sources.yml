@@ -11,3 +11,14 @@ sources:
         freshness:
           warn_after: {count: 365, period: day}
           error_after: {count: 730, period: day}
+
+sources:
+  - name: raw
+    database: ACIDENTES_DB
+    schema: RAW
+    tables:
+      - name: acidentes_trabalho_raw
+        description: "Carga bruta do SINAN (acidente de trabalho)."
+        freshness:
+          warn_after: {count: 30, period: day}
+          error_after: {count: 90, period: day}
