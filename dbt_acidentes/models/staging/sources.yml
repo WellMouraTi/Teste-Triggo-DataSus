@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: raw
+    database: ACIDENTES_DB
+    schema: RAW
+    freshness:
+      warn_after: {count: 365, period: day}
+      error_after: {count: 730, period: day}
+    tables:
+      - name: acidentes_trabalho_raw
+        description: "Tabela bruta carregada via COPY INTO (stage interno)."

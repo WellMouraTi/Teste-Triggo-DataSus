@@ -1,0 +1,7 @@
+version: 2
+models:
+  - name: stg_acidentes_trabalho
+    description: "Staging normalizado (casts/trim/upper)."
+    columns:
+      - name: dt_acid
+        tests: [not_null]

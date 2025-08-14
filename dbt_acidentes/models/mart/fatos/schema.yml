@@ -58,3 +58,4 @@ models:
           - relationships:
               to: ref('dim_tempo')
               field: data_evento
+
