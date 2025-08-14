@@ -14,7 +14,12 @@ models:
     columns:
       - name: codigo
         description: "Código da evolução"
-        tests: [not_null, unique, accepted_values: {values: ['1','2','3','4','5','6','7','9']}]
+        tests: 
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values: ["1","2","3","4","5","6","7","9"]
     
 
   - name: dim_partes_corpo
@@ -31,7 +36,12 @@ models:
     columns:
       - name: codigo
         description: "Código da raça/cor"
-        tests: [not_null, unique, accepted_values: {values: ['1','2','3','4','5','9']}]
+        tests: 
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values: ["1","2","3","4","5","9"]
           
 
   - name: dim_sexo
@@ -39,7 +49,12 @@ models:
     columns:
       - name: codigo
         description: "Código do sexo"
-        tests: [not_null, unique, accepted_values: {values: ['M','F','I']}]
+        tests: 
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values: ["M","F","I","9"]   # ajuste conforme seu dicionário
 
   - name: dim_tipo_acidente
     description: "Dimensão com tipos de acidente"
