@@ -2,11 +2,10 @@ version: 2
 
 models:
   - name: fato_acidente_trabalho
-    description: "Fato de acidentes de trabalho"
-
+    description: "Tabela fato contendo as ocorrências de acidentes de trabalho"
     columns:
       - name: id_acidente
-        description: "Chave substituta determinística da ocorrência"
+        description: "Chave substituta determinística"
         tests:
           - not_null
           - unique
@@ -15,72 +14,64 @@ models:
         description: "Data do acidente"
         tests:
           - not_null
-          - dbt_expectations.expect_column_values_to_be_between:
-              arguments:
-                min_value: "to_date('1950-01-01')"
-                max_value: "current_date()"
-                strictly: false
-              row_condition: "dt_acid is not null"
+          - relationships:
+              to: ref('dim_tempo')
+              field: data_evento
 
-      - name: sg_uf
-        description: "UF do acidente (normalizada)"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_in_set:
-              arguments:
-                value_set: ["AC","AL","AP","AM","BA","CE","DF","ES","GO",
-                            "MA","MT","MS","MG","PA","PB","PR","PE","PI",
-                            "RJ","RN","RS","RO","RR","SC","SP","SE","TO"]
-              row_condition: "sg_uf is not null"
-
-
-      # FKs -> dimensões
       - name: cs_sexo
+        description: "Código do sexo"
         tests:
           - relationships:
               to: ref('dim_sexo')
               field: codigo
 
       - name: cs_raca
+        description: "Código de raça/cor"
         tests:
           - relationships:
               to: ref('dim_raca')
               field: codigo
 
       - name: tipo_acid
+        description: "Código do tipo de acidente"
         tests:
           - relationships:
               to: ref('dim_tipo_acidente')
               field: codigo
 
       - name: part_corp1
+        description: "Parte do corpo 1"
         tests:
           - relationships:
               to: ref('dim_partes_corpo')
               field: codigo
 
       - name: part_corp2
+        description: "Parte do corpo 2"
         tests:
           - relationships:
               to: ref('dim_partes_corpo')
               field: codigo
 
       - name: part_corp3
+        description: "Parte do corpo 3"
         tests:
           - relationships:
               to: ref('dim_partes_corpo')
               field: codigo
 
       - name: evolucao
+        description: "Código da evolução do caso"
         tests:
           - relationships:
               to: ref('dim_evolucao')
               field: codigo
 
-      # opcional: tempo (se quiser checar também)
-      # troque 'data_evento' se sua dim_tempo tiver outro nome
-      - name: dt_acid
+      - name: sg_uf
+        description: "UF do acidente"
         tests:
+          - accepted_values:
+              values: ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"]
           - relationships:
-              to: ref('dim_tempo')
-              field: data_evento
-
+              to: ref('dim_localidade')
+              field: uf

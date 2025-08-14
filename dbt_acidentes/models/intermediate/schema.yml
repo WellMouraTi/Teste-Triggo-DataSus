@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: int_acidentes_trabalho
+    description: "Camada intermediária centralizando normalizações a partir do staging (datas, UFs, trims)."
+    columns:
+      - name: dt_acid
+        description: "Data do acidente"
+        tests: [not_null]
+      - name: sg_uf
+        description: "UF do acidente (normalizada)"
+      - name: cs_sexo
+        description: "Código do sexo (M/F/I/9)"
