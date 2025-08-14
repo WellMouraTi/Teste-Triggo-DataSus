@@ -2,11 +2,36 @@ version: 2
 
 models:
   - name: fato_acidente_trabalho
-    description: "Tabela fato contendo as ocorrências de acidentes de trabalho"
+    description: "Fato de acidentes de trabalho"
+
     columns:
       - name: id_acidente
-        description: "Identificador único do acidente"
-        tests: [not_null, unique]
+        description: "Chave substituta determinística da ocorrência"
+        tests:
+          - not_null
+          - unique
+
+      - name: dt_acid
+        description: "Data do acidente"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: "to_date('1950-01-01')"
+                max_value: "current_date()"
+                strictly: false
+              row_condition: "dt_acid is not null"
+
+      - name: sg_uf
+        description: "UF do acidente (normalizada)"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              arguments:
+                value_set: ["AC","AL","AP","AM","BA","CE","DF","ES","GO",
+                            "MA","MT","MS","MG","PA","PB","PR","PE","PI",
+                            "RJ","RN","RS","RO","RR","SC","SP","SE","TO"]
+              row_condition: "sg_uf is not null"
+
 
       # FKs -> dimensões
       - name: cs_sexo
