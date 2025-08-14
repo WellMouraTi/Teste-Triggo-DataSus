@@ -1,4 +1,14 @@
 -- 3) CLUSTERING (VALIDAÇÃO)
+-- Aplicação no projeto (via dbt): definimos cluster_by na fato, caminho e codigo abaixo.
+-- models/mart/fatos/fato_acidente_trabalho.sql
+--{{ config(
+--  materialized='table',
+--  cluster_by=['dt_acid','sg_uf']
+--) }}
+
+-- Rode o modelo (se a tabela já existia, use full-refresh):
+-- dbt run --full-refresh --select fato_acidente_trabalho
+
 -- Mostra a chave de cluster no DDL
 select get_ddl('table','ACIDENTES_DB.DBT_WBARROS.FATO_ACIDENTE_TRABALHO');
 

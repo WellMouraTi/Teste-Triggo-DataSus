@@ -119,8 +119,13 @@ Criamos uma cópia de trabalho de FATO_ACIDENTE_TRABALHO (TT_DEMO).
 Registramos um timestamp “ANTES”.   
 Removemos 1.000 linhas para gerar histórico.    
 Comparamos a contagem AGORA vs ANTES (TT).  
-codigo sql em ['platform/time_travel.sql'](platform/time_travel.sql).   
+codigo em ['platform/time_travel.sql'](platform/time_travel.sql).   
 
+#### Zero Copy Clone
+
+Durabilidade precisa combinar: se a origem é TRANSIENT, o clone também deve ser TRANSIENT.  
+Não é permitido “promover” transient → permanent via clone. 
+codigo em ['platform/zero_copy.sql'](platform/zero_copy.sql).   
 
   ## Como Rodar o Projeto 
 Obs: projeto foi feito no dbt cloud.
